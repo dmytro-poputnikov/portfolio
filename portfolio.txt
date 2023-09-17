@@ -1,0 +1,16 @@
+https://www.youtube.com/watch?v=0fYi8SGA20k
+Logo: logo.com
+VS Code: tailwind fix: https://stackoverflow.com/questions/47607602/how-to-add-a-tailwind-css-rule-to-css-checker
+    If you use Visual Studio Code, you can use the PostCSS Language Support plugin.
+    Make sure you associate your scss files with PostCSS by adding the following to your settings.json file: "files.associations": { "*.scss": "postcss" }.
+
+    npm install --save three
+    npm install --save @types/three
+
+    Example of use cube: https://github.com/srivastavaanurag79/angular-three/blob/main/src/assets/texture.jpg
+
+    https://discoverthreejs.com/book/first-steps/load-models/
+
+    https://stackblitz.com/edit/angular-animations-lib-simple-loop?file=src%2Fapp%2Fdemo-main%2Fdemo-main.component.html
+
+    https://williamjuan027.github.io/angular-animations-explorer/

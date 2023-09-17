@@ -1,0 +1,26 @@
+<!-- <p>{{ cardDetails?.title }}</p> -->
+<div
+  class="xs:w-[250px] w-full"
+  ngTilt
+  appVisibility
+  (visibilityChange)="$event && (animationState = 'start')"
+  [@fadeIn]="{ value: animationState, params: { delay: delay } }"
+>
+  <div
+    class="w-full green-pink-gradient p-[1px] rounded-[20px] shadow-card"
+    ngTiltParallax
+  >
+    <div
+      class="bg-tertiary rounded-[20px] py-5 px-12 min-h-[280px] flex justify-center flex-col items-center gap-3"
+    >
+      <img
+        [src]="cardDetails?.icon"
+        [alt]="cardDetails?.icon"
+        class="w-16 h-16 object-contain"
+      />
+      <h3 class="text-white text-[20px] font-bold text-center">
+        {{ cardDetails?.title }}
+      </h3>
+    </div>
+  </div>
+</div>

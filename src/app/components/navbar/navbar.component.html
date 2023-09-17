@@ -1,0 +1,63 @@
+<nav class="w-full flex items-center py-5 fixed top-0 z-20 bg-primary paddingX">
+  <div class="w-full flex justify-between items-center max-w-7xl mx-auto">
+    <a routerLink="/" class="flex items-center gap-2" (click)="onLinkClick()">
+      <img src="assets/logo.svg" class="w-20 h-20 object-contain" alt="" />
+      <p class="text-white text-[18px] font-bold cursor-pointer flex">
+        Dima &nbsp;
+        <span class="sm:block hidden">| Angular Developer</span>
+      </p>
+    </a>
+  </div>
+  <ul class="list-none hidden sm:flex flex-row gap-10">
+    <li *ngFor="let link of navLinks">
+      <a
+        [routerLinkActive]="'is-active'"
+        routerLink="/portfolio"
+        [routerLinkActiveOptions]="{
+          fragment: 'exact',
+          matrixParams: 'exact',
+          paths: 'exact',
+          queryParams: 'exact'
+        }"
+        [fragment]="link.id"
+        class="text-secondary hover:text-white text-[18px] font-medium cursor-pointer"
+      >
+        {{ link.title }}
+      </a>
+    </li>
+  </ul>
+
+  <div class="sm:hidden flex justify-end items-center">
+    <img
+      (click)="toogleMenu = !toogleMenu"
+      src="{{ toogleMenu ? 'assets/close.svg' : 'assets/menu.svg' }}"
+      alt="menu"
+      class="w-[28px] h-[28px] object-contain cursor-pointer"
+    />
+
+    <div
+      *ngIf="toogleMenu"
+      class="flex p-6 black-gradient absolute top-20 mx-4 my-2 min-w[140px] z-10 rounded-xl"
+    >
+      <ul class="list-none flex justify-end flex-col gap-4">
+        <li *ngFor="let link of navLinks">
+          <a
+            (click)="toogleMenu = false"
+            [routerLinkActive]="'is-active'"
+            routerLink="/portfolio"
+            [routerLinkActiveOptions]="{
+              fragment: 'exact',
+              matrixParams: 'exact',
+              paths: 'exact',
+              queryParams: 'exact'
+            }"
+            [fragment]="link.id"
+            class="text-secondary font-poppins font-medium cursor-pointer text-[16px]"
+          >
+            {{ link.title }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

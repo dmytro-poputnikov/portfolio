@@ -1,0 +1,16 @@
+<div #canvasContainer>
+  <ng-container *ngIf="loadProgress$ | async as loadProgress">
+    <app-loader
+      class="absolute mx-auto top-[400px]"
+      [progress]="loadProgress"
+      *ngIf="loadProgress !== 100"
+    ></app-loader>
+  </ng-container>
+  <canvas
+    #canvas
+    id="canvas"
+    style="height: 100%; width: 100%; z-index: 1000"
+  ></canvas>
+</div>
+
+<!-- <div>Aktualna pozycja : {{ position | json }}</div> -->
