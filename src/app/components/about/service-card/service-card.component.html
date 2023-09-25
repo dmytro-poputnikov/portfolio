@@ -1,6 +1,5 @@
 <!-- <p>{{ cardDetails?.title }}</p> -->
 <div
-  class="xs:w-[250px] w-full"
   ngTilt
   appVisibility
   (visibilityChange)="$event && (animationState = 'start')"
@@ -11,7 +10,7 @@
     ngTiltParallax
   >
     <div
-      class="bg-tertiary rounded-[20px] py-5 px-12 min-h-[280px] flex justify-center flex-col items-center gap-3"
+      class="bg-tertiary rounded-[20px] py-5 px-12 min-h-[280px] flex justify-center items-center flex-col gap-3"
     >
       <img
         [src]="cardDetails?.icon"

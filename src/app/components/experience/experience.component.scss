@@ -1,0 +1,231 @@
+::ng-deep {
+  $bg-color: #1d1737;
+
+  .col-center {
+    flex: 14 14 0;
+  }
+
+  .event-wrapper-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .arrow {
+    width: 0;
+    height: 0;
+    border-top: 0.5rem solid transparent;
+    border-bottom: 0.5rem solid transparent;
+    border-radius: 6px;
+    z-index: 10;
+
+    &.right {
+      filter: drop-shadow(2px 0px 0px #244a6e22);
+      border-left: 0.5rem solid $bg-color;
+    }
+
+    &.left {
+      filter: drop-shadow(-1px 0px 0px #244a6e22);
+      border-right: 0.5rem solid $bg-color;
+    }
+  }
+
+  .event {
+    background: $bg-color;
+    border-radius: 0.8rem;
+    border-bottom: 1px solid white;
+    padding: 1rem;
+    width: 100%;
+    margin: 1rem 0;
+
+    /* &.enableAnimation:hover {
+      padding: 2rem;
+      transition: all 0.5s ease-in-out;
+    }
+
+    &.enableAnimation:not(:hover) {
+      padding: 1rem;
+      transition: all 0.5s ease-in-out;
+    } */
+
+    &:not(.hour) {
+      //background: #ffffff 0% 0% no-repeat padding-box;
+      box-shadow: 0px 3px 6px #244a6e52;
+    }
+
+    &.hour {
+      padding: 0.5rem;
+      background: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &.right {
+        justify-content: flex-start;
+      }
+
+      &.left {
+        justify-content: flex-end;
+      }
+    }
+
+    .hour-inner-container {
+      margin: 0;
+    }
+  }
+
+  .col-center {
+    min-width: 64px;
+  }
+  /* .icon-container {
+    img {
+      @apply w-full h-full;
+      margin-bottom: 0.3rem;
+    }
+  } */
+
+  .period-container,
+  .period-inner-container {
+    @apply bg-[#e9e9e9] text-black rounded z-20 px-3 py-2;
+    /* background-color: #e9e9e9 !important; */
+  }
+
+  .event-container {
+    display: flex;
+
+    &.reverse {
+      flex-direction: row-reverse;
+    }
+
+    .event-info-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0.01rem;
+      flex: 88 88 0;
+
+      .event-info-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        width: 100%;
+
+        .title-container {
+          flex: 0 0 100%;
+          width: 100%;
+          font-weight: bold;
+          font-size: 26px;
+          margin-bottom: 8px;
+        }
+
+        .company-container {
+          flex: 0 0 100%;
+          width: 100%;
+          margin-bottom: 4px;
+          font-weight: 600;
+        }
+      }
+
+      .event-info-body {
+        padding: 0.5rem 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        overflow-wrap: anywhere;
+
+        .event-info-description {
+          margin-bottom: 0.5rem;
+          font-size: 13px;
+        }
+
+        .timeinposition-container {
+          @apply text-secondary w-full mb-1 mt-5;
+          flex: 0 0 100%;
+          font-weight: 400;
+        }
+
+        .expiration-container,
+        .category-container {
+          display: flex;
+          font-size: 13px;
+          justify-content: flex-start;
+          align-items: center;
+
+          p {
+            font-size: 13px;
+            margin: 0;
+          }
+
+          .expiration-label,
+          .category-label {
+            margin-right: 0.5rem;
+          }
+
+          .expiration-value,
+          .category-value {
+            font-weight: bold;
+          }
+        }
+      }
+
+      .event-info-footer {
+        font-size: 15px;
+        cursor: pointer;
+        padding-top: 1rem;
+
+        .footer-inner-container {
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-end;
+
+          nb-icon {
+            color: #006cb4;
+            width: 1rem;
+            height: 1rem;
+            margin-bottom: 0.1rem;
+          }
+        }
+
+        p {
+          margin: 0;
+          color: #006cb4;
+        }
+      }
+    }
+
+    .event-divider-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.1rem;
+      flex: 5 5 0;
+
+      hr {
+        height: 100%;
+        width: 1px;
+        background: #e9e9e9;
+      }
+    }
+
+    .event-date-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 0.1rem;
+      flex: 15 15 0;
+
+      p {
+        margin: 0;
+        text-align: center;
+
+        &.day {
+          font-size: 32px;
+          font-weight: bold;
+          padding: 0.5rem 0;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+<div
+  ngTilt
+  [maxTilt]="35"
+  [scale]="0.99"
+  [speed]="450"
+  appVisibility
+  (visibilityChange)="$event && (animationState = 'start')"
+>
+  <div class="w-full p-[1px] rounded-[20px] shadow-card">
+    <div class="bg-tertiary p-5 rounded-2xl sm:w-[300px] w-full">
+      <div
+        class="relative w-full h-[230px] card__image-wrapper"
+        ngTiltParallax
+        [distance]="300"
+      >
+        <img
+          [src]="projectDetails?.image"
+          [alt]="projectDetails?.name"
+          class="w-full h-full object-fill rounded-2xl"
+        />
+
+        <div class="absolute inset-0 flex justify-end m-3 card-img_hover">
+          <div
+            (click)="openGithub()"
+            class="black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer"
+          >
+            <img
+              [src]="github"
+              alt="github"
+              class="w-1/2 h-1/2 object-contain"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-5">
+        <h3 class="text-white font-bold text-[24px]">
+          {{ projectDetails?.name }}
+        </h3>
+        <p class="mt-2 text-secondary text-[14px]">
+          {{ projectDetails?.description }}
+        </p>
+      </div>
+
+      <div class="mt-4 flex flex-wrap gap-2">
+        <p
+          *ngFor="let tag of projectDetails?.tags"
+          [class]="'text-[14px] ' + tag?.color"
+        >
+          #{{ tag.name }}
+        </p>
+      </div>
+
+      <!--
+      <h3 class="text-white text-[20px] font-bold text-center">
+        {{ cardDetails?.title }}
+      </h3> -->
+    </div>
+  </div>
+</div>
+
+<!-- px-12 min-h-[280px] flex justify-center items-center flex-col gap-3 -->

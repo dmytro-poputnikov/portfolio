@@ -1,24 +1,20 @@
-<div>
-  <p class="sectionSubText">Introduction</p>
-  <h2 class="sectionHeadText">Overview.</h2>
+<p class="sectionSubText">Introduction</p>
+<h2 class="sectionHeadText">Overview.</h2>
 
-  <p class="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore amet
-    possimus quae quam quibusdam, alias, tempora reprehenderit expedita a totam
-    atque nulla dolorem magnam vitae fugit facere! Id, sit laborum. Lorem ipsum
-    dolor sit amet consectetur adipisicing elit. In, asperiores, quia quo odit
-    ut repellendus, maiores tempora temporibus nam beatae dicta omnis. Adipisci
-    expedita natus tenetur qui perferendis? Modi, vitae.
-  </p>
+<p class="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]">
+  I'm an experienced programmer with a wide range of skills and specializations.
+  My areas of expertise include web development, PLC programming, and mobile app
+  development. I'm ready to deliver innovative solutions and always open to new
+  challenges. Explore my portfolio to learn more about my work and how I can
+  contribute to your project.
+</p>
 
-  <div class="mt-20 flex flex-wrap gap-10">
-    <ng-container
-      *ngFor="let card of services; let i = index; trackBy: trackByCardTitle"
-    >
-      <app-service-card
-        [cardDetails]="card"
-        [delay]="i * 400"
-      ></app-service-card>
-    </ng-container>
-  </div>
+<div
+  class="mt-20 flex xs:flex-row flex-col flex-wrap gap-10 w-full items-center justify-start md:justify-center"
+>
+  <ng-container
+    *ngFor="let card of services; let i = index; trackBy: trackByCardTitle"
+  >
+    <app-service-card [cardDetails]="card" [delay]="i * 400"></app-service-card>
+  </ng-container>
 </div>

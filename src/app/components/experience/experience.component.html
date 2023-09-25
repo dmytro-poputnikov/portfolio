@@ -1,1 +1,152 @@
-<p>experience works!</p>
+<div>
+  <p class="sectionSubText">What I have done so far</p>
+  <h2 class="sectionHeadText">Work Experience.</h2>
+
+  <p class="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]">
+    I've accumulated a wealth of experience in web development as an Angular
+    Developer, specializing in web application development using Angular and
+    related technologies. Additionally, I've worked as a PLC Programmer,
+    designing and implementing control systems for various industrial
+    applications. This diverse background equips me to tackle a wide range of
+    challenges in my future endeavors.
+  </p>
+
+  <div class="mt-20 flex flex-col">
+    <ngx-timeline
+      [events]="events"
+      [centerIconCustomTemplate]="centerIconCustomTemplate"
+      [dateInstantCustomTemplate]="dateInstantCustomTemplate"
+      [eventCustomTemplate]="innerEventContainer"
+      [periodCustomTemplate]="periodCustomTemplate"
+      [reverseOrder]="true"
+    ></ngx-timeline>
+  </div>
+</div>
+
+<ng-template #centerIconCustomTemplate let-index="index" let-event="event">
+  <div class="icon-container" *ngIf="event['eventInfo'].icon">
+    <div class="w-14 h-14 flex">
+      <img [src]="event['eventInfo'].icon" [alt]="event['eventInfo'].title" />
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #innerEventContainer let-event="event">
+  <!-- DESKTOP -->
+  <div class="event-wrapper-container desktop">
+    <div
+      class="arrow left desktop"
+      *ngIf="
+        event['eventInfo'].itemPosition === ngxTimelineItemPosition.ON_RIGHT
+      "
+    ></div>
+    <div class="event" [ngClass]="{ enableAnimation: true }">
+      <div class="event-info-container p-5">
+        <div class="event-info-header">
+          <div class="title-container">
+            {{ event["eventInfo"].title | titlecase }}
+          </div>
+          <div class="company-container">
+            <p>{{ event["eventInfo"].companyName }}</p>
+          </div>
+        </div>
+        <div class="event-info-body">
+          <p
+            *ngIf="event['eventInfo'].description"
+            class="event-info-description"
+          >
+            {{ event["eventInfo"].description }}
+          </p>
+
+          <ul
+            class="event-info-experience-points mt-3 list-disc ml-5 space-y-2"
+          >
+            <li
+              *ngFor="let point of event['eventInfo'].points"
+              class="text-white-100 text-[14px] pl-1 tracking-wider"
+            >
+              {{ point }}
+            </li>
+          </ul>
+
+          <div class="timeinposition-container">
+            <p>{{ event["eventInfo"].timeInPosition }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="
+        event['eventInfo'].itemPosition === ngxTimelineItemPosition.ON_LEFT
+      "
+      class="arrow right"
+    ></div>
+  </div>
+
+  <!-- MOBILE -->
+  <div class="event-wrapper-container mobile">
+    <div class="arrow left"></div>
+    <div class="event" [ngClass]="{ enableAnimation: true }">
+      <div class="event-container bg-[#1d1737] rounded">
+        <div class="event-info-container p-5">
+          <div class="event-info-header">
+            <div class="title-container">
+              {{ event["eventInfo"].title | titlecase }}
+            </div>
+            <div class="company-container">
+              <p>{{ event["eventInfo"].companyName }}</p>
+            </div>
+          </div>
+          <div class="event-info-body">
+            <p
+              *ngIf="event['eventInfo'].description"
+              class="event-info-description"
+            >
+              {{ event["eventInfo"].description }}
+            </p>
+
+            <ul
+              class="event-info-experience-points mt-3 list-disc ml-5 space-y-2"
+            >
+              <li
+                *ngFor="let point of event['eventInfo'].points"
+                class="text-white-100 text-[14px] pl-1 tracking-wider"
+              >
+                {{ point }}
+              </li>
+            </ul>
+
+            <div class="timeinposition-container">
+              <p>{{ event["eventInfo"].timeInPosition }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="event-divider-container">
+          <hr />
+        </div> -->
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template
+  #periodCustomTemplate
+  let-period="period"
+  let-index="index"
+  let-event="event"
+>
+  <div [ngClass]="{ 'transparent first-line': !index }" class="line"></div>
+  <div class="green-pink-gradient p-[1px] rounded-[20px] shadow-card z-10">
+    <div
+      class="bg-tertiary rounded-[20px] py-3 px-6 flex justify-center items-center flex-col gap-3"
+    >
+      <p class="w-full whitespace-nowrap">
+        {{ period.firstDate | date : "yyyy" }}
+      </p>
+    </div>
+  </div>
+  <div class="line"></div>
+</ng-template>
+
+<ng-template #dateInstantCustomTemplate> </ng-template>

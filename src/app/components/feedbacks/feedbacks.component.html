@@ -1,1 +1,21 @@
-<p>feedbacks works!</p>
+<div
+  class="mt-12 bg-black-100 rounded-[20px]"
+  appVisibility
+  (visibilityChange)="$event && (showCards = true)"
+>
+  <div class="padding bg-tertiary rounded-2xl min-h-[300px]">
+    <p class="sectionSubText">What others say</p>
+    <h2 class="sectionHeadText">Testimonials.</h2>
+  </div>
+  <div
+    class="paddingX -mt-20 pb-14 flex flex-wrap gap-7"
+    *ngIf="showCards === true"
+  >
+    <ng-container *ngFor="let testimonial of testimonials; let i = index">
+      <app-feedback-card
+        [testimonial]="testimonial"
+        [delay]="i * 250"
+      ></app-feedback-card>
+    </ng-container>
+  </div>
+</div>

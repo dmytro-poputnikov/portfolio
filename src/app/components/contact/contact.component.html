@@ -1,1 +1,94 @@
-<p>contact works!</p>
+<div
+  class="xl:mt-12 xl:flex-row flex-col-reverse flex gap-10 overflow-hidden"
+  appVisibility
+  (visibilityChange)="$event && (visible = true)"
+>
+  <div
+    class="flex-[0.75] bg-black-100 p-8 rounded-2xl"
+    [@slideInLeftOnEnter]
+    *ngIf="visible"
+  >
+    <p class="sectionSubText">Get in touch</p>
+    <h3 class="sectionHeadText">Contact.</h3>
+    <form
+      [formGroup]="contactForm"
+      (submit)="onSubmit($event)"
+      class="mt-12 flex flex-col gap-8"
+    >
+      <label for="" class="flex flex-col">
+        <span class="text-white font-medium mb-4">Your Name</span>
+        <input
+          type="text"
+          name="name"
+          formControlName="name"
+          placeholder="What's your name?"
+          class="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"
+        />
+        <ng-container *ngIf="contactFormControl.name.touched || submitted">
+          <span
+            *ngIf="contactFormControl.name.errors?.['required']"
+            class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-2 ml-1"
+          >
+            Name is required!
+          </span>
+        </ng-container>
+      </label>
+      <label for="" class="flex flex-col">
+        <span class="text-white font-medium mb-4">Your Email</span>
+        <input
+          type="email"
+          name="email"
+          formControlName="email"
+          placeholder="What's your email?"
+          class="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"
+        />
+
+        <ng-container *ngIf="contactFormControl.email.touched || submitted">
+          <span
+            *ngIf="contactFormControl.email.errors?.['required']"
+            class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-2 ml-1"
+          >
+            Email is required!
+          </span>
+
+          <span
+            *ngIf="!contactFormControl.email.errors?.['required'] && contactFormControl.email.errors?.['email']"
+            class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-2 ml-1"
+          >
+            Invalid email address
+          </span>
+        </ng-container>
+      </label>
+      <label for="" class="flex flex-col">
+        <span class="text-white font-medium mb-4">Your Message</span>
+        <textarea
+          name="message"
+          formControlName="message"
+          id=""
+          cols="30"
+          rows="7"
+          placeholder="What do you want to say?"
+          class="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"
+        ></textarea>
+        <ng-container *ngIf="contactFormControl.message.touched || submitted">
+          <span
+            *ngIf="contactFormControl.message.errors?.['required']"
+            class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-2 ml-1"
+          >
+            Message is required!
+          </span>
+        </ng-container>
+      </label>
+      <button
+        type="submit"
+        class="bg-tertiary py-3 px-8 outline-none w-fit text-white font-bold shadow-md shadow-primary rounded-xl"
+      >
+        {{ loading ? "Sending..." : "Send" }}
+      </button>
+    </form>
+  </div>
+
+  <div class="xl:flex-1 xl:h-auto md:h-[550px] h-[350px]" *ngIf="visible">
+    <app-earth></app-earth>
+  </div>
+</div>

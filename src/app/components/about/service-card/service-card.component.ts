@@ -1,4 +1,10 @@
-import { trigger, transition, style, animate } from '@angular/animations';
+import {
+  trigger,
+  transition,
+  style,
+  animate,
+  state,
+} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NgTiltModule } from '@geometricpanda/angular-tilt';
@@ -19,6 +25,13 @@ export interface CardDetails {
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('fadeIn', [
+      state(
+        'hide',
+        style({
+          opacity: 0,
+        })
+      ),
+
       transition('* => start', [
         style({ opacity: 0 }),
         animate(`1000ms {{ delay }}ms ease-out`, style({ opacity: 1 })),
@@ -29,5 +42,5 @@ export interface CardDetails {
 export class ServiceCardComponent {
   @Input() cardDetails?: CardDetails;
   @Input() delay: number = 0;
-  animationState = '';
+  animationState = 'hide';
 }

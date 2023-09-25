@@ -20,6 +20,5 @@ import { CommonModule } from '@angular/common';
 })
 export class AboutComponent {
   services = services;
-
   trackByCardTitle: TrackByFunction<CardDetails> = (index, card) => card.title;
 }

@@ -55,7 +55,6 @@ export class ComputersCanvasComponent implements OnInit, OnDestroy {
 
   // @HostListener('window:resize', ['$event'])
   // onResize() {
-  //   console.log('adasd');
   //   this.setSize();
   // }
 
@@ -104,6 +103,8 @@ export class ComputersCanvasComponent implements OnInit, OnDestroy {
     // this.computer.scene.rotateZ(Math.PI / 2);
     // this.computer.scene.rotateY(Math.PI / 2);
     this.computer.scene.position.set(1, -3, -1.5);
+
+    // this.computer.scene.scale.set(2, 2, 2);
     // this.computer.scene.rotateY(Math.PI);
     // this.computer.scene.rotateZ(Math.PI / 2);
   }
@@ -178,8 +179,13 @@ export class ComputersCanvasComponent implements OnInit, OnDestroy {
     this.camera.updateProjectionMatrix();
 
     this.renderer.setPixelRatio(devicePixelRatio);
-    this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.cdRef.detectChanges();
   };
+
+  // onResize12(event: any) {
+  //   console.log('EVENT ', event.target.innerWidth, event.target.innerHeight);
+  // }
 
   /**
    * Start the rendering loop
@@ -225,7 +231,31 @@ export class ComputersCanvasComponent implements OnInit, OnDestroy {
 
   constructor(private cdRef: ChangeDetectorRef) {}
   ngOnDestroy(): void {
-    //this.mediaQuery.removeEventListener('change', this.handleMediaQueryChange);
+    // Usuń obiekt Three.js z sceny
+    if (this.computer && this.scene) {
+      this.scene.remove(this.computer.scene);
+    }
+
+    // Zwalnianie zasobów
+    if (this.computer) {
+      // Usuń materiały i geometrię
+      this.computer.scene.traverse((obj) => {
+        if (obj instanceof THREE.Mesh) {
+          obj.geometry.dispose();
+          obj.material.dispose();
+        }
+      });
+    }
+
+    // Dodatkowe zasoby Three.js do zwolnienia
+
+    // Zatrzymaj animacje lub inne procesy, jeśli są aktywne
+
+    // Następnie zwolnij pozostałe zasoby, takie jak kamera, renderer itp.
+    this.renderer.dispose();
+
+    // Oczyść referencje
+    this.computer = undefined;
   }
 
   ngOnInit(): void {

@@ -12,7 +12,7 @@
     <li *ngFor="let link of navLinks">
       <a
         [routerLinkActive]="'is-active'"
-        routerLink="/portfolio"
+        routerLink="/"
         [routerLinkActiveOptions]="{
           fragment: 'exact',
           matrixParams: 'exact',
@@ -44,7 +44,7 @@
           <a
             (click)="toogleMenu = false"
             [routerLinkActive]="'is-active'"
-            routerLink="/portfolio"
+            routerLink="/"
             [routerLinkActiveOptions]="{
               fragment: 'exact',
               matrixParams: 'exact',

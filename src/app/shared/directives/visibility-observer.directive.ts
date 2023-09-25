@@ -21,7 +21,7 @@ export class VisibilityDirective implements OnInit, OnDestroy {
     const options = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.0,
+      threshold: 0.05,
     };
 
     this.observer = new IntersectionObserver((entries) => {

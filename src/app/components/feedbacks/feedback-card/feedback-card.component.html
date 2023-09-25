@@ -1,0 +1,23 @@
+<div class="bg-black-200 p-10 rounded-3xl xs:w-[320px] w-full">
+  <p class="text-white font-black text-[48px]">"</p>
+  <div class="mt-1">
+    <p class="text-white tracking-wider text-[18px]">
+      {{ testimonial?.testimonial }}
+    </p>
+    <div class="mt-7 flex justify-between items-center gap-1">
+      <div class="flex-1 flex flex-col">
+        <p class="text-white font-medium text-[16px]">
+          <span class="blue-text-gradient">@</span> {{ testimonial?.name }}
+        </p>
+        <p class="mt-1 text-secondary text-[12px]">
+          {{ testimonial?.designation }} of {{ testimonial?.company }}
+        </p>
+      </div>
+      <img
+        [src]="testimonial?.image"
+        [alt]="'feedback-by-' + testimonial?.name"
+        class="w-10 h-10 rounded-full object-cover"
+      />
+    </div>
+  </div>
+</div>

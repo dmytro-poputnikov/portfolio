@@ -4,16 +4,27 @@
     <app-hero />
   </div>
   <div>
-    <section-wrapper>
+    <section-wrapper [fragmentTitle]="'about'">
       <app-about />
     </section-wrapper>
+    <section-wrapper [fragmentTitle]="'work'">
+      <app-experience />
+    </section-wrapper>
+    <!-- <section-wrapper>
+      <app-tech />
+    </section-wrapper> -->
+    <section-wrapper>
+      <app-works />
+    </section-wrapper>
+    <section-wrapper>
+      <app-feedbacks />
+    </section-wrapper>
 
-    <app-experience />
-    <app-tech />
-    <app-works />
-    <app-feedbacks />
     <div class="relative z-0">
-      <app-contact />
+      <section-wrapper [fragmentTitle]="'contact'">
+        <app-contact />
+      </section-wrapper>
+
       <app-stars-canvas />
     </div>
   </div>

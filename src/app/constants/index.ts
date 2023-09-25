@@ -1,27 +1,39 @@
-const mobile = 'assets/mobile.png';
-const backend = 'assets/backend.png';
-const creator = 'assets/creator.png';
-const web = 'assets/web.png';
-const javascript = 'assets/javascript.png';
-const typescript = 'assets/typescript.png';
-const html = 'assets/html.png';
-const css = 'assets/css.png';
-const reactjs = 'assets/reactjs.png';
-const redux = 'assets/redux.png';
-const tailwind = 'assets/tailwind.png';
-const nodejs = 'assets/nodejs.png';
-const mongodb = 'assets/mongodb.png';
-const git = 'assets/git.png';
-const figma = 'assets/figma.png';
-const docker = 'assets/docker.png';
-const meta = 'assets/meta.png';
-const starbucks = 'assets/starbucks.png';
-const tesla = 'assets/tesla.png';
-const shopify = 'assets/shopify.png';
-const carrent = 'assets/carrent.png';
-const jobit = 'assets/jobit.png';
-const tripguide = 'assets/tripguide.png';
-const threejs = 'assets/threejs.png';
+export const mobile = 'assets/mobile.png';
+export const backend = 'assets/backend.png';
+export const creator = 'assets/creator.png';
+export const web = 'assets/web.png';
+export const github = 'assets/github.png';
+export const javascript = 'assets/tech/javascript.png';
+export const typescript = 'assets/tech/typescript.png';
+export const html = 'assets/tech/html.png';
+export const css = 'assets/tech/css.png';
+export const reactjs = 'assets/tech/reactjs.png';
+export const redux = 'assets/tech/redux.png';
+export const tailwind = 'assets/tech/tailwind.png';
+export const nodejs = 'assets/tech/nodejs.png';
+export const mongodb = 'assets/tech/mongodb.png';
+export const git = 'assets/tech/git.png';
+export const figma = 'assets/tech/figma.png';
+export const docker = 'assets/tech/docker.png';
+export const ngrx = 'assets/tech/ngrx.svg';
+export const universal = 'assets/tech/universal.png';
+export const threejs = 'assets/tech/threejs.svg';
+export const ionic = 'assets/tech/ionic.png';
+export const rxjs = 'assets/tech/rxjs.png';
+export const net_core = 'assets/tech/NET_Core_Logo.png';
+export const postgresql = 'assets/tech/postgresql.png';
+export const angular = 'assets/tech/angular.svg';
+
+export const meta = 'assets/company/meta.png';
+export const starbucks = 'assets/company/starbucks.png';
+export const tesla = 'assets/company/tesla.png';
+export const shopify = 'assets/company/shopify.png';
+export const carrent = 'assets/carrent.png';
+export const jobit = 'assets/jobit.png';
+export const tripguide = 'assets/tripguide.png';
+
+export const zeto = 'assets/company/zeto-logo-white.svg';
+export const simplar = 'assets/company/simplar.png';
 
 export const navLinks = [
   {
@@ -44,7 +56,7 @@ const services = [
     icon: web,
   },
   {
-    title: 'React Native Developer',
+    title: 'Ionic Developer',
     icon: mobile,
   },
   {
@@ -52,7 +64,7 @@ const services = [
     icon: backend,
   },
   {
-    title: 'Content Creator',
+    title: 'PLC Programmer',
     icon: creator,
   },
 ];
@@ -75,12 +87,24 @@ const technologies = [
     icon: typescript,
   },
   {
-    name: 'React JS',
-    icon: reactjs,
+    name: 'Angular',
+    icon: angular,
   },
   {
-    name: 'Redux Toolkit',
-    icon: redux,
+    name: 'RxJs',
+    icon: rxjs,
+  },
+  {
+    name: 'Ionic',
+    icon: ionic,
+  },
+  {
+    name: 'NgRx',
+    icon: ngrx,
+  },
+  {
+    name: 'Angular Universal',
+    icon: universal,
   },
   {
     name: 'Tailwind CSS',
@@ -91,8 +115,16 @@ const technologies = [
     icon: nodejs,
   },
   {
-    name: 'MongoDB',
-    icon: mongodb,
+    name: '.NET Core',
+    icon: net_core,
+  },
+  // {
+  //   name: 'MongoDB',
+  //   icon: mongodb,
+  // },
+  {
+    name: 'PostgreSQL',
+    icon: postgresql,
   },
   {
     name: 'Three JS',

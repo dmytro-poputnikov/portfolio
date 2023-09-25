@@ -4,6 +4,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom([BrowserAnimationsModule]),
-    importProvidersFrom(RouterModule.forRoot([])),
+    importProvidersFrom(
+      RouterModule.forRoot([], {
+        anchorScrolling: 'enabled',
+      })
+    ),
   ],
 };

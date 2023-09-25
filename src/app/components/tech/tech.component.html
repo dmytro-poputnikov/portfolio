@@ -1,1 +1,17 @@
-<p>tech works!</p>
+<div
+  class="flex flex-row flex-wrap justify-center gap-10 max-w-full"
+  appVisibility
+  (visibilityChange)="changeVisibility($event)"
+>
+  <ng-container *ngIf="showBalls">
+    <div
+      class="w-28 h-28"
+      *ngFor="let technology of technologies; let i = index"
+    >
+      <app-ball
+        [texture]="technology.icon"
+        [id]="'ball' + i.toString()"
+      ></app-ball>
+    </div>
+  </ng-container>
+</div>
