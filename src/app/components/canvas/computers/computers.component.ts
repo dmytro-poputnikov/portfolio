@@ -15,6 +15,7 @@ import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { LoaderComponent } from '../../loader/loader.component';
 import { BehaviorSubject } from 'rxjs';
+import { inView } from 'motion';
 
 @Component({
   selector: 'app-computers-canvas',
@@ -28,17 +29,10 @@ export class ComputersCanvasComponent implements OnInit, OnDestroy {
   @ViewChild('canvas')
   private canvasRef: ElementRef | undefined;
 
-  public position: any;
-
   //* Cube Properties
-
   @Input() public rotationSpeedX: number = 0.0001;
-
   @Input() public rotationSpeedY: number = 0.0001;
-
   @Input() public size: number = 0.1;
-
-  // @Input() public texture: string = '/assets/texture.jpg';
 
   //* Stage Properties
   @Input() public cameraX: number = 25;
@@ -49,10 +43,9 @@ export class ComputersCanvasComponent implements OnInit, OnDestroy {
   @Input('farClipping') public farClippingPlane: number = 1000;
 
   //? Helper Properties (Private Properties);
-
+  private animationFrameId: number | null = null;
   mediaQuery = window.matchMedia('(max-width: 500px)');
   isMobile = this.mediaQuery.matches;
-
   // @HostListener('window:resize', ['$event'])
   // onResize() {
   //   this.setSize();
@@ -63,7 +56,6 @@ export class ComputersCanvasComponent implements OnInit, OnDestroy {
   };
 
   private computer: GLTF | undefined;
-
   private camera!: THREE.PerspectiveCamera;
 
   private get canvas(): HTMLCanvasElement {
@@ -72,14 +64,7 @@ export class ComputersCanvasComponent implements OnInit, OnDestroy {
   // private loaderTexture = new THREE.TextureLoader();
   private loaderGLTF = new GLTFLoader();
   private geometry = new THREE.BoxGeometry(1, 1, 1);
-  // private material = new THREE.MeshBasicMaterial({
-  //   map: this.loaderTexture.load(this.texture),
-  // });
-
-  // private cube: THREE.Mesh = new THREE.Mesh(this.geometry, this.material);
-
   private renderer!: THREE.WebGLRenderer;
-
   private scene!: THREE.Scene;
 
   /**
@@ -87,6 +72,25 @@ export class ComputersCanvasComponent implements OnInit, OnDestroy {
    */
   private loadProgressSubject = new BehaviorSubject<number>(0);
   loadProgress$ = this.loadProgressSubject.asObservable();
+
+  constructor(private cdRef: ChangeDetectorRef) {}
+
+  ngOnInit(): void {
+    //this.mediaQuery.addEventListener('change', this.handleMediaQueryChange);
+  }
+
+  ngAfterViewInit() {
+    this.createScene();
+
+    inView('#canvasComputer', (info) => {
+      console.log('ENTER');
+      this.animateComputer();
+      return (leaveInfo) => {
+        console.log('LEAVE');
+        this.stopAnimateComputer();
+      };
+    });
+  }
 
   /**
    * Get computer gltf (Async function)
@@ -100,13 +104,7 @@ export class ComputersCanvasComponent implements OnInit, OnDestroy {
         this.loadProgressSubject.next((loaded / total) * 100);
       }
     );
-    // this.computer.scene.rotateZ(Math.PI / 2);
-    // this.computer.scene.rotateY(Math.PI / 2);
     this.computer.scene.position.set(1, -3, -1.5);
-
-    // this.computer.scene.scale.set(2, 2, 2);
-    // this.computer.scene.rotateY(Math.PI);
-    // this.computer.scene.rotateZ(Math.PI / 2);
   }
 
   /**
@@ -116,8 +114,23 @@ export class ComputersCanvasComponent implements OnInit, OnDestroy {
    * @memberof ComputersCanvasComponent
    */
   private animateComputer() {
-    if (this.computer) this.computer.scene.rotation.y -= this.rotationSpeedX;
-    // this.cube.rotation.y += this.rotationSpeedY;
+    if (this.animationFrameId === null) {
+      const animate = () => {
+        this.animationFrameId = requestAnimationFrame(animate);
+        if (this.computer)
+          this.computer.scene.rotation.y -= this.rotationSpeedX;
+
+        if (this.renderer) this.renderer.render(this.scene!, this.camera!);
+      };
+      animate();
+    }
+  }
+
+  private stopAnimateComputer() {
+    if (this.animationFrameId !== null) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
   }
 
   /**
@@ -126,48 +139,49 @@ export class ComputersCanvasComponent implements OnInit, OnDestroy {
    * @private
    * @memberof ComputersCanvasComponent
    */
-  private createScene() {
-    //* Scene
-    this.scene = new THREE.Scene();
-    //*Camera
-    let aspectRatio = this.getAspectRatio();
-    this.camera = new THREE.PerspectiveCamera(
-      this.fieldOfView,
-      aspectRatio,
-      this.nearClippingPlane,
-      this.farClippingPlane
-    );
-    this.camera.position.x = this.cameraX;
-    this.camera.position.y = this.cameraY;
-    this.camera.position.z = this.cameraZ;
+  private async createScene() {
+    await this.loadComputerGltf();
+    if (this.computer) {
+      //* Scene
+      this.scene = new THREE.Scene();
+      //*Camera
+      let aspectRatio = this.getAspectRatio();
+      this.camera = new THREE.PerspectiveCamera(
+        this.fieldOfView,
+        aspectRatio,
+        this.nearClippingPlane,
+        this.farClippingPlane
+      );
+      this.camera.position.x = this.cameraX;
+      this.camera.position.y = this.cameraY;
+      this.camera.position.z = this.cameraZ;
 
-    //* Light
-    const pointLight = new THREE.PointLight(0xffffff); // Kolor światła (biały)
-    pointLight.position.x = -0.74;
-    pointLight.position.y = 0.003;
-    pointLight.position.z = -5.47;
-    pointLight.intensity = 20;
+      //* Light
+      const pointLight = new THREE.PointLight(0xffffff); // Kolor światła (biały)
+      pointLight.position.x = -0.74;
+      pointLight.position.y = 0.003;
+      pointLight.position.z = -5.47;
+      pointLight.intensity = 20;
 
-    const spotLight = new THREE.SpotLight(0xffffff); // Kolor światła (biały)
-    spotLight.position.set(-0.56, 2, 1.25);
-    spotLight.angle = 40;
-    spotLight.shadow.mapSize.width = 256;
-    spotLight.shadow.mapSize.height = 256;
-    spotLight.penumbra = 0.5;
-    spotLight.intensity = 100;
+      const spotLight = new THREE.SpotLight(0xffffff); // Kolor światła (biały)
+      spotLight.position.set(-0.56, 2, 1.25);
+      spotLight.angle = 40;
+      spotLight.shadow.mapSize.width = 256;
+      spotLight.shadow.mapSize.height = 256;
+      spotLight.penumbra = 0.5;
+      spotLight.intensity = 100;
 
-    // const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    // ambientLight.position.set(-2, 10, 4); // Położenie światła (x, y, z)
-    // ambientLight.intensity = 2.5;
+      const hemisphereLight = new THREE.HemisphereLight(0xffffff);
+      hemisphereLight.position.set(-0.42, 6.6, -7.75); // Położenie światła (x, y, z)
+      hemisphereLight.intensity = 1;
+      hemisphereLight.groundColor = new THREE.Color(THREE.Color.NAMES.black);
 
-    const hemisphereLight = new THREE.HemisphereLight(0xffffff);
-    hemisphereLight.position.set(-0.42, 6.6, -7.75); // Położenie światła (x, y, z)
-    hemisphereLight.intensity = 1;
-    hemisphereLight.groundColor = new THREE.Color(THREE.Color.NAMES.black);
-
-    const axesHelper = new THREE.AxesHelper(5);
-    this.scene.add(spotLight);
-    this.scene.add(pointLight);
+      const axesHelper = new THREE.AxesHelper(5);
+      this.scene.add(spotLight);
+      this.scene.add(pointLight);
+      this.scene.add(this.computer.scene);
+      this.startRenderingLoop();
+    }
   }
 
   private getAspectRatio() {
@@ -183,10 +197,6 @@ export class ComputersCanvasComponent implements OnInit, OnDestroy {
     this.cdRef.detectChanges();
   };
 
-  // onResize12(event: any) {
-  //   console.log('EVENT ', event.target.innerWidth, event.target.innerHeight);
-  // }
-
   /**
    * Start the rendering loop
    *
@@ -200,78 +210,81 @@ export class ComputersCanvasComponent implements OnInit, OnDestroy {
       canvas: this.canvas,
       alpha: true,
       antialias: true,
-      preserveDrawingBuffer: true,
+      preserveDrawingBuffer: false,
     });
     this.setSize();
 
     //Rotation
     const controls = new OrbitControls(this.camera, this.renderer.domElement);
-
     controls.enableZoom = false;
     controls.maxPolarAngle = Math.PI / 2;
     controls.minPolarAngle = Math.PI / 2;
 
-    this.position = this.camera.position;
-    controls.addEventListener('change', () => {
-      this.position = this.camera.position; // Aktualna rotacja względem osi x
-      this.cdRef.detectChanges();
-    });
+    // this.position = this.camera.position;
+    // controls.addEventListener('change', () => {
+    //   this.position = this.camera.position; // Aktualna rotacja względem osi x
+    //   this.cdRef.detectChanges();
+    // });
 
     // Włącz obsługę cieni
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap; // Typ cieniowania
-
-    let component: ComputersCanvasComponent = this;
-    (function render() {
-      requestAnimationFrame(render);
-      component.animateComputer();
-      component.renderer.render(component.scene, component.camera);
-    })();
+    this.renderer.render(this.scene!, this.camera!);
+    // this.animateComputer();
   }
 
-  constructor(private cdRef: ChangeDetectorRef) {}
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     // Usuń obiekt Three.js z sceny
-    if (this.computer && this.scene) {
-      this.scene.remove(this.computer.scene);
-    }
-
-    // Zwalnianie zasobów
-    if (this.computer) {
-      // Usuń materiały i geometrię
-      this.computer.scene.traverse((obj) => {
+    if (this.scene) {
+      this.scene.children.forEach((obj) => {
+        // Dodatkowe czyszczenie zasobów (jeśli to jest konieczne) - w zależności od typu obiektu
         if (obj instanceof THREE.Mesh) {
-          obj.geometry.dispose();
-          obj.material.dispose();
+          if (obj.material.map) {
+            obj.material.map.dispose();
+          }
+          if (obj.material.lightMap) {
+            obj.material.lightMap.dispose();
+          }
+          if (obj.material.aoMap) {
+            obj.material.aoMap.dispose();
+          }
+          if (obj.material.emissiveMap) {
+            obj.material.emissiveMap.dispose();
+          }
+          if (obj.material.bumpMap) {
+            obj.material.bumpMap.dispose();
+          }
+          if (obj.material.normalMap) {
+            obj.material.normalMap.dispose();
+          }
+          if (obj.material.displacementMap) {
+            obj.material.displacementMap.dispose();
+          }
+          if (obj.material.roughnessMap) {
+            obj.material.roughnessMap.dispose();
+          }
+          if (obj.material.metalnessMap) {
+            obj.material.metalnessMap.dispose();
+          }
+          if (obj.material.alphaMap) {
+            obj.material.alphaMap.dispose();
+          }
+
+          if (obj.geometry) {
+            obj.geometry.dispose();
+          }
+          this.scene.remove(obj);
         }
       });
-    }
 
-    // Dodatkowe zasoby Three.js do zwolnienia
-
-    // Zatrzymaj animacje lub inne procesy, jeśli są aktywne
-
-    // Następnie zwolnij pozostałe zasoby, takie jak kamera, renderer itp.
-    this.renderer.dispose();
-
-    // Oczyść referencje
-    this.computer = undefined;
-  }
-
-  ngOnInit(): void {
-    //this.mediaQuery.addEventListener('change', this.handleMediaQueryChange);
-  }
-
-  ngAfterViewInit() {
-    this.createScene();
-
-    // Dodaj załadowany model do sceny po jego załadowaniu
-    this.loadComputerGltf().then(() => {
-      if (this.computer) {
-        this.scene.add(this.computer.scene);
+      // Następnie zwolnij pozostałe zasoby, takie jak kamera, renderer itp.
+      if (this.renderer) {
+        this.renderer.forceContextLoss();
+        this.renderer.dispose();
       }
-    });
 
-    this.startRenderingLoop();
+      // Oczyść referencje
+      this.stopAnimateComputer();
+    }
   }
 }

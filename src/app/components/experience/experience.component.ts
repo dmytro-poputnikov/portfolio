@@ -1,4 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+} from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import {
   NgxTimelineModule,
@@ -7,6 +11,12 @@ import {
 } from '@frxjs/ngx-timeline';
 
 import { zeto, simplar } from 'src/app/constants';
+import {
+  flipInXOnEnterAnimation,
+  slideInLeftOnEnterAnimation,
+} from 'angular-animations';
+import { state, style } from '@angular/animations';
+import { animate, inView, stagger } from 'motion';
 @Component({
   selector: 'app-experience',
   standalone: true,
@@ -14,8 +24,17 @@ import { zeto, simplar } from 'src/app/constants';
   templateUrl: './experience.component.html',
   styleUrls: ['./experience.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [flipInXOnEnterAnimation({ duration: 1500, delay: 500 })],
 })
-export class ExperienceComponent {
+export class ExperienceComponent implements AfterViewInit {
+  ngAfterViewInit(): void {
+    this.animate();
+  }
+  onVisibilityChange($event: any) {
+    if ($event) this.enableAnimation = true;
+  }
+
+  enableAnimation = false;
   ngxTimelineItemPosition = NgxTimelineItemPosition;
   events: any[] = [
     {
@@ -49,4 +68,35 @@ export class ExperienceComponent {
       icon: simplar,
     },
   ];
+
+  animate() {
+    inView('#experienceHeader', (info) => {
+      animate(
+        info.target,
+        {
+          opacity: 1,
+          x: [-100, 0],
+        },
+        {
+          duration: 1,
+          delay: 1,
+          easing: 'ease-in',
+          allowWebkitAcceleration: true,
+        }
+      );
+
+      animate(
+        '.event',
+        {
+          opacity: 1,
+        },
+        {
+          delay: stagger(0.4),
+          duration: 1,
+          easing: [0.22, 0.03, 0.26, 1],
+          allowWebkitAcceleration: true,
+        }
+      );
+    });
+  }
 }

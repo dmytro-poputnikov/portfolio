@@ -1,7 +1,6 @@
-<div>
+<div id="experienceHeader" style="opacity: 0">
   <p class="sectionSubText">What I have done so far</p>
   <h2 class="sectionHeadText">Work Experience.</h2>
-
   <p class="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]">
     I've accumulated a wealth of experience in web development as an Angular
     Developer, specializing in web application development using Angular and
@@ -10,17 +9,16 @@
     applications. This diverse background equips me to tackle a wide range of
     challenges in my future endeavors.
   </p>
-
-  <div class="mt-20 flex flex-col">
-    <ngx-timeline
-      [events]="events"
-      [centerIconCustomTemplate]="centerIconCustomTemplate"
-      [dateInstantCustomTemplate]="dateInstantCustomTemplate"
-      [eventCustomTemplate]="innerEventContainer"
-      [periodCustomTemplate]="periodCustomTemplate"
-      [reverseOrder]="true"
-    ></ngx-timeline>
-  </div>
+</div>
+<div class="mt-20 flex flex-col">
+  <ngx-timeline
+    [events]="events"
+    [centerIconCustomTemplate]="centerIconCustomTemplate"
+    [dateInstantCustomTemplate]="dateInstantCustomTemplate"
+    [eventCustomTemplate]="innerEventContainer"
+    [periodCustomTemplate]="periodCustomTemplate"
+    [reverseOrder]="true"
+  ></ngx-timeline>
 </div>
 
 <ng-template #centerIconCustomTemplate let-index="index" let-event="event">
@@ -41,36 +39,38 @@
       "
     ></div>
     <div class="event" [ngClass]="{ enableAnimation: true }">
-      <div class="event-info-container p-5">
-        <div class="event-info-header">
-          <div class="title-container">
-            {{ event["eventInfo"].title | titlecase }}
+      <div class="event-container bg-[#1d1737] rounded">
+        <div class="event-info-container p-5">
+          <div class="event-info-header">
+            <div class="title-container">
+              {{ event["eventInfo"].title }}
+            </div>
+            <div class="company-container">
+              <p>{{ event["eventInfo"].companyName }}</p>
+            </div>
           </div>
-          <div class="company-container">
-            <p>{{ event["eventInfo"].companyName }}</p>
-          </div>
-        </div>
-        <div class="event-info-body">
-          <p
-            *ngIf="event['eventInfo'].description"
-            class="event-info-description"
-          >
-            {{ event["eventInfo"].description }}
-          </p>
-
-          <ul
-            class="event-info-experience-points mt-3 list-disc ml-5 space-y-2"
-          >
-            <li
-              *ngFor="let point of event['eventInfo'].points"
-              class="text-white-100 text-[14px] pl-1 tracking-wider"
+          <div class="event-info-body">
+            <p
+              *ngIf="event['eventInfo'].description"
+              class="event-info-description"
             >
-              {{ point }}
-            </li>
-          </ul>
+              {{ event["eventInfo"].description }}
+            </p>
 
-          <div class="timeinposition-container">
-            <p>{{ event["eventInfo"].timeInPosition }}</p>
+            <ul
+              class="event-info-experience-points mt-3 list-disc ml-5 space-y-2"
+            >
+              <li
+                *ngFor="let point of event['eventInfo'].points"
+                class="text-white-100 text-[14px] pl-1 tracking-wider"
+              >
+                {{ point }}
+              </li>
+            </ul>
+
+            <div class="timeinposition-container">
+              <p>{{ event["eventInfo"].timeInPosition }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -91,7 +91,7 @@
         <div class="event-info-container p-5">
           <div class="event-info-header">
             <div class="title-container">
-              {{ event["eventInfo"].title | titlecase }}
+              {{ event["eventInfo"].title }}
             </div>
             <div class="company-container">
               <p>{{ event["eventInfo"].companyName }}</p>

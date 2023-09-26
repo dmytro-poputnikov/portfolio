@@ -3,6 +3,8 @@ export const backend = 'assets/backend.png';
 export const creator = 'assets/creator.png';
 export const web = 'assets/web.png';
 export const github = 'assets/github.png';
+
+//tech
 export const javascript = 'assets/tech/javascript.png';
 export const typescript = 'assets/tech/typescript.png';
 export const html = 'assets/tech/html.png';
@@ -23,17 +25,16 @@ export const rxjs = 'assets/tech/rxjs.png';
 export const net_core = 'assets/tech/NET_Core_Logo.png';
 export const postgresql = 'assets/tech/postgresql.png';
 export const angular = 'assets/tech/angular.svg';
-
-export const meta = 'assets/company/meta.png';
-export const starbucks = 'assets/company/starbucks.png';
-export const tesla = 'assets/company/tesla.png';
-export const shopify = 'assets/company/shopify.png';
-export const carrent = 'assets/carrent.png';
-export const jobit = 'assets/jobit.png';
-export const tripguide = 'assets/tripguide.png';
-
+//company
 export const zeto = 'assets/company/zeto-logo-white.svg';
 export const simplar = 'assets/company/simplar.png';
+
+//projects
+export const welding_robot = 'assets/projects/welding_robot.jpg';
+export const publico = 'assets/projects/publico.jpg';
+export const skinet = 'assets/projects/skinet.jpg';
+export const gwo = 'assets/projects/gwo.jpg';
+export const website = 'assets/website_external.png';
 
 export const navLinks = [
   {
@@ -52,7 +53,7 @@ export const navLinks = [
 
 const services = [
   {
-    title: 'Web Developer',
+    title: 'Angular Developer',
     icon: web,
   },
   {
@@ -79,16 +80,16 @@ const technologies = [
     icon: css,
   },
   {
+    name: 'Angular',
+    icon: angular,
+  },
+  {
     name: 'JavaScript',
     icon: javascript,
   },
   {
     name: 'TypeScript',
     icon: typescript,
-  },
-  {
-    name: 'Angular',
-    icon: angular,
   },
   {
     name: 'RxJs',
@@ -118,10 +119,10 @@ const technologies = [
     name: '.NET Core',
     icon: net_core,
   },
-  // {
-  //   name: 'MongoDB',
-  //   icon: mongodb,
-  // },
+  {
+    name: 'MongoDB',
+    icon: mongodb,
+  },
   {
     name: 'PostgreSQL',
     icon: postgresql,
@@ -141,61 +142,6 @@ const technologies = [
   {
     name: 'docker',
     icon: docker,
-  },
-];
-
-const experiences = [
-  {
-    title: 'React.js Developer',
-    company_name: 'Starbucks',
-    icon: starbucks,
-    iconBg: '#383E56',
-    date: 'March 2020 - April 2021',
-    points: [
-      'Developing and maintaining web applications using React.js and other related technologies.',
-      'Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.',
-      'Implementing responsive design and ensuring cross-browser compatibility.',
-      'Participating in code reviews and providing constructive feedback to other developers.',
-    ],
-  },
-  {
-    title: 'React Native Developer',
-    company_name: 'Tesla',
-    icon: tesla,
-    iconBg: '#E6DEDD',
-    date: 'Jan 2021 - Feb 2022',
-    points: [
-      'Developing and maintaining web applications using React.js and other related technologies.',
-      'Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.',
-      'Implementing responsive design and ensuring cross-browser compatibility.',
-      'Participating in code reviews and providing constructive feedback to other developers.',
-    ],
-  },
-  {
-    title: 'Web Developer',
-    company_name: 'Shopify',
-    icon: shopify,
-    iconBg: '#383E56',
-    date: 'Jan 2022 - Jan 2023',
-    points: [
-      'Developing and maintaining web applications using React.js and other related technologies.',
-      'Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.',
-      'Implementing responsive design and ensuring cross-browser compatibility.',
-      'Participating in code reviews and providing constructive feedback to other developers.',
-    ],
-  },
-  {
-    title: 'Full stack Developer',
-    company_name: 'Meta',
-    icon: meta,
-    iconBg: '#E6DEDD',
-    date: 'Jan 2023 - Present',
-    points: [
-      'Developing and maintaining web applications using React.js and other related technologies.',
-      'Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.',
-      'Implementing responsive design and ensuring cross-browser compatibility.',
-      'Participating in code reviews and providing constructive feedback to other developers.',
-    ],
   },
 ];
 
@@ -228,68 +174,92 @@ const testimonials = [
 
 const projects = [
   {
-    name: 'Car Rent',
+    name: 'Welding Robot',
     description:
-      'Web-based platform that allows users to search, book, and manage car rentals from various providers, providing a convenient and efficient solution for transportation needs.',
+      'An application for remote control of a welding robot using a joystick and live transmission from a video camera.',
     tags: [
       {
-        name: 'react',
+        name: 'angular',
         color: 'blue-text-gradient',
       },
       {
-        name: 'mongodb',
+        name: 'flask',
         color: 'green-text-gradient',
+      },
+      {
+        name: 'material',
+        color: 'pink-text-gradient',
+      },
+    ],
+    image: welding_robot,
+    website_link: 'http://areonindustries.com/',
+  },
+  {
+    name: 'Publico',
+    description:
+      'Development and maintain an app for citizens to access official government data and communicate with office staff.',
+    tags: [
+      {
+        name: 'angular',
+        color: 'blue-text-gradient',
+      },
+      {
+        name: 'ionic',
+        color: 'green-text-gradient',
+      },
+      {
+        name: 'java',
+        color: 'pink-text-gradient',
+      },
+    ],
+    image: publico,
+    website_link: 'https://e-uslugi.skwierzyna.pl/',
+  },
+  {
+    name: 'E-Commerce (Course)',
+    description:
+      'A learning oriented online store website built on the Angular framework and .NET Core.',
+    tags: [
+      {
+        name: 'angular',
+        color: 'blue-text-gradient',
+      },
+      {
+        name: '.net',
+        color: 'green-text-gradient',
+      },
+      {
+        name: 'stripe',
+        color: 'pink-text-gradient',
+      },
+      {
+        name: 'bootstrap',
+        color: 'orange-text-gradient',
+      },
+    ],
+    image: skinet,
+    source_code_link: 'https://github.com/dmytro-poputnikov/skinet',
+    website_link: 'http://134.122.85.63/',
+  },
+  {
+    name: 'Recruitment Task',
+    description:
+      'Presentation of Angular knowledge using the existing public restAPI and tailwind.',
+    tags: [
+      {
+        name: 'angular',
+        color: 'blue-text-gradient',
       },
       {
         name: 'tailwind',
-        color: 'pink-text-gradient',
-      },
-    ],
-    image: carrent,
-    source_code_link: 'https://github.com/',
-  },
-  {
-    name: 'Job IT',
-    description:
-      'Web application that enables users to search for job openings, view estimated salary ranges for positions, and locate available jobs based on their current location.',
-    tags: [
-      {
-        name: 'react',
-        color: 'blue-text-gradient',
-      },
-      {
-        name: 'restapi',
         color: 'green-text-gradient',
       },
-      {
-        name: 'scss',
-        color: 'pink-text-gradient',
-      },
     ],
-    image: jobit,
-    source_code_link: 'https://github.com/',
-  },
-  {
-    name: 'Trip Guide',
-    description:
-      'A comprehensive travel booking platform that allows users to book flights, hotels, and rental cars, and offers curated recommendations for popular destinations.',
-    tags: [
-      {
-        name: 'nextjs',
-        color: 'blue-text-gradient',
-      },
-      {
-        name: 'supabase',
-        color: 'green-text-gradient',
-      },
-      {
-        name: 'css',
-        color: 'pink-text-gradient',
-      },
-    ],
-    image: tripguide,
-    source_code_link: 'https://github.com/',
+    image: gwo,
+    source_code_link:
+      'https://github.com/dmytro-poputnikov/gwo-restcountries-task',
+    website_link: 'https://dmytro-poputnikov.github.io/gwo-restcountries-task/',
   },
 ];
 
-export { services, technologies, experiences, testimonials, projects };
+export { services, technologies, testimonials, projects };

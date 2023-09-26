@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NgTiltModule } from '@geometricpanda/angular-tilt';
 import { InViewportModule } from 'ng-in-viewport';
-import { github } from 'src/app/constants';
+import { github, website } from 'src/app/constants';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 export interface ProjectDetails {
@@ -17,7 +17,8 @@ export interface ProjectDetails {
   description: string;
   tags: Tag[];
   image: string;
-  source_code_link: string;
+  source_code_link?: string;
+  website_link?: string;
 }
 
 interface Tag {
@@ -53,8 +54,15 @@ export class ProjectCardComponent {
   @Input() delay: number = 0;
   animationState = 'hide';
   github = github;
+  website = website;
 
   openGithub() {
-    window.open(this.projectDetails?.source_code_link, '_blank');
+    if (this.projectDetails?.source_code_link)
+      window.open(this.projectDetails?.source_code_link, '_blank');
+  }
+
+  openWebsite() {
+    if (this.projectDetails?.website_link)
+      window.open(this.projectDetails?.website_link, '_blank');
   }
 }

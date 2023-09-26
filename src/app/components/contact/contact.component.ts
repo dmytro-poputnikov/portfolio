@@ -1,13 +1,20 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { slideInLeftOnEnterAnimation } from 'angular-animations';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EarthComponent } from '../canvas/earth/earth.component';
+import { animate, inView } from 'motion';
 
 @Component({
   selector: 'app-contact',
@@ -15,11 +22,13 @@ import { EarthComponent } from '../canvas/earth/earth.component';
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [slideInLeftOnEnterAnimation({ duration: 2500, delay: 1000 })],
   imports: [SharedModule, ReactiveFormsModule, EarthComponent],
 })
-export class ContactComponent {
-  visible = false;
+export class ContactComponent implements AfterViewInit {
+  @ViewChild('contactFormWrapper') contactFormWrapper!: ElementRef;
+  @ViewChild('contactFormElement') contactFormElement: ElementRef | undefined;
+  @Input() visible = false;
+
   loading = false;
   submitted = false;
 
@@ -30,6 +39,9 @@ export class ContactComponent {
   });
 
   constructor(private fb: FormBuilder) {}
+  ngAfterViewInit(): void {
+    this.animate();
+  }
 
   onSubmit($event: any) {
     $event.preventDefault();
@@ -49,5 +61,23 @@ export class ContactComponent {
 
   get contactFormControl() {
     return this.contactForm.controls;
+  }
+
+  animate() {
+    inView(this.contactFormWrapper.nativeElement, (info) => {
+      animate(
+        info.target,
+        {
+          opacity: 1,
+          x: [-100, 0],
+        },
+        {
+          duration: 1,
+          delay: 0.1,
+          easing: 'ease-in',
+          allowWebkitAcceleration: true,
+        }
+      );
+    });
   }
 }

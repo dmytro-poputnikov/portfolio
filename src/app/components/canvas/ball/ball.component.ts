@@ -5,7 +5,9 @@ import {
   Component,
   ElementRef,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import * as THREE from 'three';
@@ -19,18 +21,27 @@ import { DecalGeometry } from 'three/examples/jsm/geometries/DecalGeometry';
   templateUrl: './ball.component.html',
   styleUrls: ['./ball.component.scss'],
 })
-export class BallComponent implements OnInit, AfterViewInit {
-  @ViewChild('canvas')
-  private canvasRef: ElementRef | undefined;
+export class BallComponent implements OnInit, AfterViewInit, OnChanges {
+  @Input() enableAnimationOfBalls = false;
+  @Input() id: string = '';
+  @Input() texture: string = '/assets/texture.jpg';
+  @Input() canvasRef: HTMLCanvasElement | undefined;
+  @Input() scene: THREE.Scene | undefined;
+  @Input() camera: THREE.PerspectiveCamera | undefined;
+  @Input() position: { x: number; y: number; z: number } = { x: 0, y: 0, z: 0 };
 
-  public position: any;
-  @Input() public id = '';
-
+  private renderer!: THREE.WebGLRenderer;
+  private ball: THREE.Mesh | undefined;
+  private loader = new THREE.TextureLoader();
+  private geometry = new THREE.IcosahedronGeometry(1, 3);
+  private material: THREE.MeshStandardMaterial | undefined;
+  private decalGeometry: DecalGeometry | undefined;
+  private decalMaterial: THREE.MeshStandardMaterial | undefined;
+  private decalMesh: THREE.Mesh | undefined;
+  private animationFrameId: number | null = null;
   //* ball Properties
   @Input() public rotationSpeedX: number = 0.05;
   @Input() public rotationSpeedY: number = 0.01;
-  @Input() public size: number = 200;
-  @Input() public texture: string = '/assets/texture.jpg';
 
   //* Stage Properties
   @Input() public cameraX: number = 0;
@@ -40,25 +51,44 @@ export class BallComponent implements OnInit, AfterViewInit {
   @Input('nearClipping') public nearClippingPlane: number = 1;
   @Input('farClipping') public farClippingPlane: number = 1000;
 
-  //? Helper Properties (Private Properties);
-  private camera!: THREE.PerspectiveCamera;
   private get canvas(): HTMLCanvasElement {
-    return this.canvasRef!.nativeElement;
+    return this.canvasRef!;
   }
-  private loader = new THREE.TextureLoader();
-  private geometry = new THREE.IcosahedronGeometry(1, 2);
-  private material: THREE.MeshStandardMaterial | undefined;
 
-  private ball: THREE.Mesh | undefined;
-  private decalGeometry: DecalGeometry | undefined;
-  private decalMaterial: THREE.MeshStandardMaterial | undefined;
-  private decalMesh: THREE.Mesh | undefined;
+  constructor(private cdRef: ChangeDetectorRef) {}
 
-  private renderer!: THREE.WebGLRenderer;
-  private scene!: THREE.Scene;
+  ngOnInit(): void {
+    // Inicjalizacja geometrii, materiałów i innych właściwości "balla"
+    // this.decalMesh.scale.set(2.85, 2.85, 2.85);
+  }
 
-  private rotationAngleX = 0; // Inicjalny kąt obrotu wokół osi Y
-  private rotationAngleY = 0; // Inicjalny kąt obrotu wokół osi Y
+  ngAfterViewInit() {
+    this.initializeBall();
+
+    // Inicjalizacja renderera, kamery na wspólnym canvasie
+    if (this.canvas) {
+      this.renderer = new THREE.WebGLRenderer({
+        canvas: this.canvas,
+        alpha: true,
+        preserveDrawingBuffer: false,
+        antialias: false,
+      });
+      this.renderer.setPixelRatio(window.devicePixelRatio);
+      this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
+
+      this.renderer.setClearColor(0x000000, 0); // the default
+    }
+
+    this.animateBall();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['enableAnimationOfBalls']) {
+      console.log(changes['enableAnimationOfBalls'].currentValue);
+      if (changes['enableAnimationOfBalls'].currentValue) this.animateBall();
+      else this.stopAnimateBall();
+    }
+  }
 
   /**
    *Animate the ball
@@ -67,101 +97,38 @@ export class BallComponent implements OnInit, AfterViewInit {
    * @memberof BallComponent
    */
   private animateBall() {
-    if (this.ball && this.decalMesh) {
-      const amplitude = 10; // Amplituda ruchu (ilość stopni)
-      const frequency = 0.02; // Częstotliwość ruchu
+    if (this.animationFrameId === null) {
+      const animate = () => {
+        this.animationFrameId = requestAnimationFrame(animate);
 
-      const time = performance.now() * 0.03; // Aktualny czas
-      const rotationX = amplitude * Math.sin(frequency * time);
-      const rotationY = amplitude * Math.cos(frequency * time);
+        if (this.ball && this.decalMesh) {
+          const amplitude = 10; // Amplituda ruchu (ilość stopni)
+          const frequency = 0.04; // Częstotliwość ruchu
 
-      this.ball.rotation.x = THREE.MathUtils.degToRad(rotationX);
-      this.ball.rotation.y = THREE.MathUtils.degToRad(rotationY);
-      this.decalMesh.rotation.x = THREE.MathUtils.degToRad(rotationX);
-      this.decalMesh.rotation.y = THREE.MathUtils.degToRad(rotationY);
+          const time = performance.now() * 0.03; // Aktualny czas
+          const rotationX = amplitude * Math.sin(frequency * time);
+          const rotationY = amplitude * Math.cos(frequency * time);
+
+          this.ball.rotation.x = THREE.MathUtils.degToRad(rotationX);
+          this.ball.rotation.y = THREE.MathUtils.degToRad(rotationY);
+          this.decalMesh.rotation.x = THREE.MathUtils.degToRad(rotationX);
+          this.decalMesh.rotation.y = THREE.MathUtils.degToRad(rotationY);
+        }
+      };
+
+      animate();
     }
   }
 
-  /**
-   * Create the scene
-   *
-   * @private
-   * @memberof BallComponent
-   */
-  private createScene() {
-    if (!this.ball || !this.decalMesh) return;
-
-    //* Scene
-    this.scene = new THREE.Scene();
-    this.scene.add(this.ball);
-    this.scene.add(this.decalMesh);
-
-    //*Camera
-    let aspectRatio = this.getAspectRatio();
-    this.camera = new THREE.PerspectiveCamera(
-      this.fieldOfView,
-      aspectRatio,
-      this.nearClippingPlane,
-      this.farClippingPlane
-    );
-    this.camera.position.x = this.cameraX;
-    this.camera.position.y = this.cameraY;
-    this.camera.position.z = this.cameraZ;
-
-    //*Light
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.35);
-    this.scene.add(ambientLight);
-
-    const directionalLight = new THREE.DirectionalLight(0xffffff);
-    directionalLight.position.set(0, 0, 0.05);
-    this.scene.add(directionalLight);
+  private stopAnimateBall() {
+    if (this.animationFrameId !== null) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
   }
 
-  private getAspectRatio() {
-    return this.canvas.clientWidth / this.canvas.clientHeight;
-  }
-
-  /**
-   * Start the rendering loop
-   *
-   * @private
-   * @memberof BallComponent
-   */
-  private startRenderingLoop() {
-    if (!this.ball || !this.decalMesh) return;
-
-    //* Renderer
-    // Use canvas element in template
-    this.renderer = new THREE.WebGLRenderer({
-      canvas: this.canvas,
-      alpha: true,
-      preserveDrawingBuffer: true,
-      antialias: true,
-    });
-    this.renderer.setPixelRatio(devicePixelRatio);
-    this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
-
-    //Rotation
-    const controls = new OrbitControls(this.camera, this.renderer.domElement);
-    controls.enableZoom = false;
-
-    this.position = this.camera.position;
-    controls.addEventListener('change', () => {
-      this.position = this.camera.position; // Aktualna rotacja względem osi x
-      this.cdRef.detectChanges();
-    });
-
-    let component: BallComponent = this;
-    (function render() {
-      requestAnimationFrame(render);
-      component.animateBall();
-      component.renderer.render(component.scene, component.camera);
-    })();
-  }
-
-  constructor(private cdRef: ChangeDetectorRef) {}
-
-  ngOnInit(): void {
+  private initializeBall() {
+    // Inicjalizacja geometrii, materiałów i logiki obrotu "balla"
     // Tworzenie materiału na podstawie wartości texture
     this.material = new THREE.MeshStandardMaterial({
       color: '#fff8eb',
@@ -173,6 +140,7 @@ export class BallComponent implements OnInit, AfterViewInit {
 
     // Tworzenie obiektu ball i dekali
     this.ball = new THREE.Mesh(this.geometry, this.material);
+    this.ball.position.set(this.position.x, this.position.y, this.position.z);
 
     //* Refactoring mesh
     this.ball.scale.set(1, 1, 1);
@@ -195,12 +163,27 @@ export class BallComponent implements OnInit, AfterViewInit {
       side: THREE.FrontSide,
     });
     this.decalMesh = new THREE.Mesh(this.decalGeometry, this.decalMaterial);
+    this.decalMesh.position.set(
+      this.position.x,
+      this.position.y,
+      this.position.z
+    );
 
-    // this.decalMesh.scale.set(2.85, 2.85, 2.85);
+    if (this.scene && this.ball && this.decalMesh) {
+      this.scene.add(this.ball);
+      this.scene.add(this.decalMesh);
+    }
   }
 
-  ngAfterViewInit() {
-    this.createScene();
-    this.startRenderingLoop();
+  ngOnDestroy() {
+    // Następnie zwolnij pozostałe zasoby, takie jak kamera, renderer itp.
+    if (this.renderer) {
+      this.renderer.forceContextLoss();
+      this.renderer.dispose();
+    }
+
+    // Oczyść referencje
+
+    this.stopAnimateBall();
   }
 }

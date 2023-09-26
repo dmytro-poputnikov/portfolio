@@ -1,10 +1,5 @@
 <!-- <p>{{ cardDetails?.title }}</p> -->
-<div
-  ngTilt
-  appVisibility
-  (visibilityChange)="$event && (animationState = 'start')"
-  [@fadeIn]="{ value: animationState, params: { delay: delay } }"
->
+<div ngTilt>
   <div
     class="w-full green-pink-gradient p-[1px] rounded-[20px] shadow-card"
     ngTiltParallax

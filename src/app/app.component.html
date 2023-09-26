@@ -1,18 +1,18 @@
-<div class="relative z-0 bg-primary h-full">
+<div class="relative z-0 bg-primary h-full" id="main_wrapper">
   <div class="bg-hero-pattern bg-cover bg-no-repeat bg-center">
     <app-navbar />
     <app-hero />
   </div>
   <div>
-    <section-wrapper [fragmentTitle]="'about'">
+    <section-wrapper [fragmentTitle]="'about'" id="about_section">
       <app-about />
     </section-wrapper>
     <section-wrapper [fragmentTitle]="'work'">
       <app-experience />
     </section-wrapper>
-    <!-- <section-wrapper>
+    <section-wrapper>
       <app-tech />
-    </section-wrapper> -->
+    </section-wrapper>
     <section-wrapper>
       <app-works />
     </section-wrapper>
@@ -23,9 +23,8 @@
     <div class="relative z-0">
       <section-wrapper [fragmentTitle]="'contact'">
         <app-contact />
+        <app-stars-canvas />
       </section-wrapper>
-
-      <app-stars-canvas />
     </div>
   </div>
 </div>

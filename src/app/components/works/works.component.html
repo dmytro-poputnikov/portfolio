@@ -1,22 +1,26 @@
-<p class="sectionSubText">My work</p>
-<h2 class="sectionHeadText">Projects.</h2>
+<div id="worksHeader" style="opacity: 0">
+  <p class="sectionSubText">My work</p>
+  <h2 class="sectionHeadText">Projects.</h2>
 
-<p class="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]">
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore amet possimus
-  quae quam quibusdam, alias, tempora reprehenderit expedita a totam atque nulla
-  dolorem magnam vitae fugit facere! Id, sit laborum. Lorem ipsum dolor sit amet
-  consectetur adipisicing elit. In, asperiores, quia quo odit ut repellendus,
-  maiores tempora temporibus nam beatae dicta omnis. Adipisci expedita natus
-  tenetur qui perferendis? Modi, vitae.
-</p>
+  <p class="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore amet
+    possimus quae quam quibusdam, alias, tempora reprehenderit expedita a totam
+    atque nulla dolorem magnam vitae fugit facere! Id, sit laborum. Lorem ipsum
+    dolor sit amet consectetur adipisicing elit. In, asperiores, quia quo odit
+    ut repellendus, maiores tempora temporibus nam beatae dicta omnis. Adipisci
+    expedita natus tenetur qui perferendis? Modi, vitae.
+  </p>
+</div>
 
 <div
-  class="mt-20 flex xs:flex-row flex-col flex-wrap gap-10 w-full items-center justify-center"
+  class="projectCards_wrapper mt-20 flex xs:flex-row flex-col flex-wrap gap-10 w-full items-center justify-center"
 >
   <ng-container *ngFor="let project of projects; let i = index">
     <app-project-card
+      class="project-card"
       [projectDetails]="project"
       [delay]="i * 400"
+      style="opacity: 0"
     ></app-project-card>
   </ng-container>
 </div>

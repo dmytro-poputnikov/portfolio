@@ -19,7 +19,18 @@
           class="w-full h-full object-fill rounded-2xl"
         />
 
-        <div class="absolute inset-0 flex justify-end m-3 card-img_hover">
+        <div class="absolute inset-0 flex justify-end m-3 card-img_hover gap-1">
+          <div
+            (click)="openWebsite()"
+            class="black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer"
+          >
+            <img
+              [src]="website"
+              alt="github"
+              class="w-1/2 h-1/2 object-contain"
+            />
+          </div>
+
           <div
             (click)="openGithub()"
             class="black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer"

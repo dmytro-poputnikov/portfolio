@@ -1,16 +1,26 @@
-<div
-  class="flex flex-row flex-wrap justify-center gap-10 max-w-full"
-  appVisibility
-  (visibilityChange)="changeVisibility($event)"
->
+<div class="flex max-w-full">
+  <canvas
+    #canvasBalls
+    id="canvasBalls"
+    style="
+      height: 100%;
+      width: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      min-height: 400px;
+      min-width: 100%;
+    "
+  ></canvas>
   <ng-container *ngIf="showBalls">
-    <div
-      class="w-28 h-28"
-      *ngFor="let technology of technologies; let i = index"
-    >
+    <div *ngFor="let technology of technologies; let i = index">
       <app-ball
+        [canvasRef]="canvasBalls"
         [texture]="technology.icon"
         [id]="'ball' + i.toString()"
+        [scene]="scene"
+        [camera]="camera"
+        [position]="ballPositions[i]"
+        [enableAnimationOfBalls]="enableAnimationOfBalls"
       ></app-ball>
     </div>
   </ng-container>

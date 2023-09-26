@@ -1,12 +1,8 @@
-<div
-  class="xl:mt-12 xl:flex-row flex-col-reverse flex gap-10 overflow-hidden"
-  appVisibility
-  (visibilityChange)="$event && (visible = true)"
->
+<div class="xl:mt-12 xl:flex-row flex-col-reverse flex gap-10 overflow-hidden">
   <div
     class="flex-[0.75] bg-black-100 p-8 rounded-2xl"
-    [@slideInLeftOnEnter]
-    *ngIf="visible"
+    #contactFormWrapper
+    style="opacity: 0"
   >
     <p class="sectionSubText">Get in touch</p>
     <h3 class="sectionHeadText">Contact.</h3>
@@ -14,6 +10,7 @@
       [formGroup]="contactForm"
       (submit)="onSubmit($event)"
       class="mt-12 flex flex-col gap-8"
+      #contactFormElement
     >
       <label for="" class="flex flex-col">
         <span class="text-white font-medium mb-4">Your Name</span>
@@ -88,7 +85,7 @@
     </form>
   </div>
 
-  <div class="xl:flex-1 xl:h-auto md:h-[550px] h-[350px]" *ngIf="visible">
+  <div class="xl:flex-1 xl:h-auto md:h-[550px] h-[350px]">
     <app-earth></app-earth>
   </div>
 </div>

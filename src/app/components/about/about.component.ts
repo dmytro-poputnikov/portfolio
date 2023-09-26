@@ -1,7 +1,12 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
   TrackByFunction,
+  ViewChild,
 } from '@angular/core';
 import { services } from 'src/app/constants';
 import {
@@ -9,6 +14,7 @@ import {
   ServiceCardComponent,
 } from './service-card/service-card.component';
 import { CommonModule } from '@angular/common';
+import { animate, inView, spring, stagger } from 'motion';
 
 @Component({
   selector: 'app-about',
@@ -16,9 +22,56 @@ import { CommonModule } from '@angular/common';
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
   imports: [ServiceCardComponent, CommonModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AboutComponent {
+export class AboutComponent implements AfterViewInit, OnDestroy {
+  stopInView: any;
+
+  ngAfterViewInit(): void {
+    this.animate();
+  }
+
+  @ViewChild('aboutHeader') aboutHeader!: ElementRef;
+
   services = services;
   trackByCardTitle: TrackByFunction<CardDetails> = (index, card) => card.title;
+
+  animate() {
+    this.stopInView = inView('#aboutHeader p.about_description', (header) => {
+      const controls1 = animate(
+        this.aboutHeader.nativeElement,
+        {
+          opacity: 1,
+          x: [-50, 0],
+        },
+        {
+          duration: 2.5,
+          delay: 1,
+          easing: spring({ velocity: 100 }),
+          allowWebkitAcceleration: true,
+        }
+      );
+
+      const controls2 = animate(
+        '.service_card',
+        {
+          opacity: 1,
+        },
+        {
+          delay: stagger(0.4),
+          duration: 1.5,
+          easing: [0.22, 0.03, 0.26, 1],
+          allowWebkitAcceleration: true,
+        }
+      );
+
+      return (leaveInfo) => {
+        controls1.stop();
+        controls2.stop();
+      };
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.stopInView();
+  }
 }
