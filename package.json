@@ -18,6 +18,7 @@
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
+    "@emailjs/browser": "^3.11.0",
     "@frxjs/ngx-timeline": "^2.2.2",
     "@geometricpanda/angular-tilt": "^0.3.0",
     "@types/three": "^0.156.0",

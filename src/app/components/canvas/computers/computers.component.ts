@@ -99,10 +99,10 @@ export class ComputersCanvasComponent implements OnInit, OnDestroy {
    */
   private async loadComputerGltf() {
     this.computer = await this.loaderGLTF.loadAsync(
-      'assets/public/desktop_pc/scene.gltf',
-      ({ loaded, total }) => {
-        this.loadProgressSubject.next((loaded / total) * 100);
-      }
+      'assets/public/desktop_pc/scene.gltf'
+      // ({ loaded, total }) => {
+      //   this.loadProgressSubject.next((loaded / total) * 100);
+      // }
     );
     this.computer.scene.position.set(1, -3, -1.5);
   }

@@ -15,6 +15,7 @@ import {
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EarthComponent } from '../canvas/earth/earth.component';
 import { animate, inView } from 'motion';
+import emailjs from '@emailjs/browser';
 
 @Component({
   selector: 'app-contact',
@@ -46,8 +47,36 @@ export class ContactComponent implements AfterViewInit {
   onSubmit($event: any) {
     $event.preventDefault();
     this.submitted = true;
+
     if (this.contactForm.valid) {
+      this.loading = true;
+
       console.log(this.contactForm.value);
+
+      emailjs
+        .send(
+          'service_qapp6rk',
+          'template_5zu761a',
+          {
+            from_name: this.contactForm.value.name,
+            to_name: 'Dima',
+            from_email: this.contactForm.value.email,
+            to_email: 'dpoputnikov@gmail.com',
+            message: this.contactForm.value.message,
+          },
+          '_yvCSBOFuvB9Zv2Up'
+        )
+        .then(
+          () => {
+            this.loading = false;
+            alert('Thank you. I will get back to you as soon as possible.');
+            this.contactForm.reset();
+          },
+          (error) => {
+            console.log(error);
+            alert('Something went wrong');
+          }
+        );
     }
     return false;
   }

@@ -27,6 +27,8 @@ import { animate, inView, stagger } from 'motion';
   animations: [flipInXOnEnterAnimation({ duration: 1500, delay: 500 })],
 })
 export class ExperienceComponent implements AfterViewInit {
+  animationShowed = false;
+
   ngAfterViewInit(): void {
     this.animate();
   }
@@ -71,32 +73,48 @@ export class ExperienceComponent implements AfterViewInit {
 
   animate() {
     inView('#experienceHeader', (info) => {
-      animate(
-        info.target,
-        {
-          opacity: 1,
-          x: [-100, 0],
-        },
-        {
-          duration: 1,
-          delay: 1,
-          easing: 'ease-in',
-          allowWebkitAcceleration: true,
-        }
-      );
+      if (!this.animationShowed) {
+        animate(
+          info.target,
+          {
+            opacity: 1,
+            x: [-100, 0],
+          },
+          {
+            duration: 1,
+            delay: 1,
+            easing: 'ease-in',
+            allowWebkitAcceleration: true,
+          }
+        );
 
-      animate(
-        '.event',
-        {
-          opacity: 1,
-        },
-        {
-          delay: stagger(0.4),
-          duration: 1,
-          easing: [0.22, 0.03, 0.26, 1],
-          allowWebkitAcceleration: true,
-        }
-      );
+        animate(
+          '.event',
+          {
+            opacity: 1,
+          },
+          {
+            delay: stagger(0.4),
+            duration: 1,
+            easing: [0.22, 0.03, 0.26, 1],
+            allowWebkitAcceleration: true,
+          }
+        );
+
+        animate(
+          '.arrow',
+          {
+            opacity: 1,
+          },
+          {
+            delay: stagger(0.4),
+            duration: 1,
+            easing: [0.22, 0.03, 0.26, 1],
+            allowWebkitAcceleration: true,
+          }
+        );
+        this.animationShowed = true;
+      }
     });
   }
 }
