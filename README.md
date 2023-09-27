@@ -1,6 +1,6 @@
 # My 3D Portfolio Website: Creating a Stunning Showcase with Three.js and Angular
 
-![3D Portfolio](https://i.ibb.co/b7w09Pm/portfolio-app.jpg)
+![3D Portfolio](https://i.ibb.co/PtXLHNj/portfolio-app.jpg)
 
 # Introduction
 
