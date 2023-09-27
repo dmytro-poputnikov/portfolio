@@ -6,3 +6,4 @@ services:
     image: portfolio-angular:v1.0
     ports:
       - "8090:80"
+    container_name: portfolio
