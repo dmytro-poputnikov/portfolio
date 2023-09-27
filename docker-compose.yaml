@@ -1,0 +1,8 @@
+version: '3'
+services:
+  portfolio-app:
+    build:
+      context: .
+    image: portfolio-angular:v1.0
+    ports:
+      - "8080:80"
