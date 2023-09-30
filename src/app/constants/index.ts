@@ -25,6 +25,7 @@ export const rxjs = 'assets/tech/rxjs.png';
 export const net_core = 'assets/tech/NET_Core_Logo.png';
 export const postgresql = 'assets/tech/postgresql.png';
 export const angular = 'assets/tech/angular.svg';
+export const storybook = 'assets/tech/storybook-icon.svg';
 //company
 export const zeto = 'assets/company/zeto-logo-white.svg';
 export const simplar = 'assets/company/simplar.png';
@@ -98,6 +99,10 @@ const technologies = [
   {
     name: 'Ionic',
     icon: ionic,
+  },
+  {
+    name: 'StoryBook',
+    icon: storybook,
   },
   {
     name: 'NgRx',
